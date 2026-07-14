@@ -12,13 +12,68 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model User {
-  id  String @id @default(cuid())
-  clerkId String @unique 
-  fullName String?
-  email String? @unique
-  imageUrl String?
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  fullName  String?
+  email     String?  @unique
+  imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  conversations Conversation[]
+
+  @@map("users")
+}
+
+model Conversation {
+  id           String  @id @default(cuid())
+  userId       String
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  systemPrompt String?
+  model        String?
+  isPinned     Boolean @default(false)
+  isArchived   Boolean @default(false)
+
+  lastMessageAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  messages Message[]
+
+  @@index([userId, lastMessageAt(sort: Desc)])
+  @@index([userId, isPinned, lastMessageAt(sort: Desc)])
+
+  @@map("conversations")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOLS
+}
+
+enum MessageStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model Message {
+  id             String        @id @default(cuid())
+  conversationId String
+  conversation   Conversation  @relation(fields: [conversationId], references: [id] , onDelete: Cascade)
+  content        String @db.Text
+  parts          Json
+  metaData       Json?
+  role           MessageRole
+  status         MessageStatus @default(COMPLETED)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([conversationId, createdAt(sort: Desc)])
+  @@map("messages")
 }
