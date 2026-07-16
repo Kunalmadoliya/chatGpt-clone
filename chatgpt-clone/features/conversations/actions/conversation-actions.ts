@@ -1,9 +1,9 @@
 "use server";
 
 import {prisma} from "@/utils/db";
-import {NextRequest} from "next/server";
+
 import {getAuthenticateUser} from "@/features/auth/actiion/require-user";
-import { revalidatePath } from "next/cache";
+import {revalidatePath} from "next/cache";
 
 export type Conversation = {
   id: string;
@@ -34,11 +34,13 @@ async function findConversationWithUserId(
 }
 
 // CREATE
-export async function createConversation(req: NextRequest) {
+export async function createConversation(title: string) {
   try {
     const user = await getAuthenticateUser();
 
-    let {title} = await req.json();
+   if(!user) {
+    throw new Error("User not authenticated");
+   }
 
     if (typeof title !== "string" || !title.trim()) {
       title = "New Chat";
@@ -51,12 +53,11 @@ export async function createConversation(req: NextRequest) {
       },
     });
 
-
     return {
       success: true,
       message: "Conversation created successfully.",
       data: conversation,
-      id : conversation.id,
+      id: conversation.id,
     };
   } catch (error) {
     console.error("Create Conversation Error:", error);
@@ -102,7 +103,6 @@ export async function listConversation(): Promise<
       },
     });
 
-
     return {
       success: true,
       data: conversations,
@@ -123,7 +123,7 @@ export async function listConversation(): Promise<
 // UPDATE
 export async function updateConversation(
   conversationId: string,
-  data : {title?: string , isArchived?: boolean, isPinned?: boolean},
+  data: {title?: string; isArchived?: boolean; isPinned?: boolean},
 ) {
   const user = await getAuthenticateUser();
 
@@ -135,14 +135,14 @@ export async function updateConversation(
         id: conversationId,
         userId: user.id,
       },
-     data : {
+      data: {
         title: data.title,
         isArchived: data.isArchived,
         isPinned: data.isPinned,
-     }
+      },
     });
-     revalidatePath("/");
-  revalidatePath(`/c/${conversationId}`);
+    revalidatePath("/");
+    revalidatePath(`/c/${conversationId}`);
     return updateConversation;
   } catch (error) {
     console.error("Update Conversation Error:", error);
@@ -163,10 +163,10 @@ export async function deleteConversation(conversationId: string) {
       },
     });
 
-    revalidatePath("/"); 
+    revalidatePath("/");
 
     return {
-      id : conversationId,
+      id: conversationId,
     };
   } catch (error) {
     console.error("Delete Conversation Error:", error);

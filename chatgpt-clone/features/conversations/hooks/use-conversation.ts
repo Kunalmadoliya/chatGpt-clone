@@ -20,7 +20,7 @@ export function useCreateConversation() {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: createConversation,
+    mutationFn:  (title?: string) => createConversation(title as string),
     onSuccess: (conversation) => {
       void queryClient.invalidateQueries({
         queryKey: queryKeys.conversations.all,
@@ -58,7 +58,7 @@ export function useUpdateConversation() {
       console.error("Error updating conversation:", error);
       toast.error("Failed to update conversation.");
     },
-  });
+  });  
 }
 
 export function useDeleteConversation(activeId?: string) {
