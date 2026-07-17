@@ -9,6 +9,8 @@ import {useRouter} from "next/navigation";
 
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
+
+
 export function useConversation() {
   return useQuery({
     queryKey: queryKeys.conversations.all,
@@ -19,6 +21,8 @@ export function useConversation() {
 export function useCreateConversation() {
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  
   return useMutation({
     mutationFn:  (title?: string) => createConversation(title as string),
     onSuccess: (conversation) => {
