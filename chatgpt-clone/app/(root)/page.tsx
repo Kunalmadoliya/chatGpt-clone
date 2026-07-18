@@ -1,12 +1,10 @@
-import { startNewChat } from '@/features/home/actions/start-new-chat';
-import { redirect } from 'next/navigation';
+import { startNewChat } from "@/features/home/actions/start-new-chat";
+import { redirect } from "next/navigation";
 
+const page = async () => {
+  const conversationId = await startNewChat();
 
-const page = async() => {
-  const conversationId = await startNewChat()
-  
-  redirect(`/c/${conversationId}`)
-}
+  redirect(`/c/${conversationId}`);
+};
 
-export default page
-
+export default page;

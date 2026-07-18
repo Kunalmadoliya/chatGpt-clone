@@ -2,6 +2,10 @@ import { AmbientMeshBackground } from "@/components/landingpage/background/Ambie
 import { FloatingNavigationBar } from "@/components/landingpage/layout/FloatingNavigationBar";
 import { CinematicHeroSection } from "@/components/landingpage/hero/CinematicHeroSection";
 import { BentoFeatureGrid } from "@/components/landingpage/features/BentoFeatureGrid";
+import { PricingSection } from "@/components/landingpage/pricing/PricingSection";
+import { TestimonialsSection } from "@/components/landingpage/testimonials/TestimonialsSection";
+import { FAQSection } from "@/components/landingpage/faq/FAQSection";
+import { Footer } from "@/components/landingpage/layout/Footer";
 
 export default function Home() {
   return (
@@ -9,11 +13,13 @@ export default function Home() {
       <AmbientMeshBackground />
       <FloatingNavigationBar />
       
-      <div className="flex flex-col gap-12 pb-24">
+      <div className="flex flex-col gap-12">
         <CinematicHeroSection />
         <BentoFeatureGrid />
-        
-        {/* Additional components like Pricing, Enterprise, Footer would orchestrate here following the same BlurReveal modular pattern */}
+        <TestimonialsSection />
+        <PricingSection />
+        <FAQSection />
+        <Footer />
       </div>
     </main>
   );

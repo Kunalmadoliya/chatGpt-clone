@@ -1,6 +1,8 @@
 import { BlurRevealLayer } from "../animations/BlurRevealLayer";
 import { InteractiveChatMockup } from "./InteractiveChatMockup";
 import { MagneticElement } from "../animations/MagneticElement";
+import Link from "next/link";
+import { Sparkles } from "lucide-react";
 
 export function CinematicHeroSection() {
   return (
@@ -9,8 +11,8 @@ export function CinematicHeroSection() {
         
         <BlurRevealLayer delay={0.1}>
           <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-secondary/30 px-3 py-1 backdrop-blur-md">
-            <span className="flex h-2 w-2 rounded-full bg-primary" />
-            <span className="text-xs font-medium tracking-wide text-foreground">Model v4.5 Deployed</span>
+            <Sparkles className="h-3 w-3 text-primary" />
+            <span className="text-xs font-medium tracking-wide text-foreground">Nexus Omni-Model Live</span>
           </div>
         </BlurRevealLayer>
 
@@ -25,20 +27,26 @@ export function CinematicHeroSection() {
 
         <BlurRevealLayer delay={0.3} className="max-w-2xl">
           <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Experience a conversational AI that does not just process text, but understands context, executes logic, and renders solutions in real-time.
+            A conversational AI that doesn&apos;t just process text. It understands context, executes complex logic, and renders solutions in milliseconds.
           </p>
         </BlurRevealLayer>
 
-        <BlurRevealLayer delay={0.4} className="flex items-center gap-4 pt-4">
+        <BlurRevealLayer delay={0.4} className="flex flex-col sm:flex-row items-center gap-4 pt-4">
           <MagneticElement>
-            <button className="rounded-full bg-foreground px-8 py-4 text-sm font-semibold text-background shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]">
-              Start Building Free
-            </button>
+            <Link 
+              href="/sign-in"
+              className="inline-flex rounded-full bg-foreground px-8 py-4 text-sm font-semibold text-background shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:scale-105 hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]"
+            >
+              Get Started Free
+            </Link>
           </MagneticElement>
           <MagneticElement>
-            <button className="rounded-full border border-border/50 bg-background/50 px-8 py-4 text-sm font-semibold text-foreground backdrop-blur-md transition-colors hover:bg-secondary/50">
-              Read the Paper
-            </button>
+            <Link 
+              href="#features"
+              className="inline-flex rounded-full border border-border/50 bg-background/50 px-8 py-4 text-sm font-semibold text-foreground backdrop-blur-md transition-colors hover:bg-secondary/50"
+            >
+              Explore Features
+            </Link>
           </MagneticElement>
         </BlurRevealLayer>
       </div>

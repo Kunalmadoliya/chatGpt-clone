@@ -9,6 +9,9 @@ import {
   PinOffIcon,
   PlusIcon,
   Trash2Icon,
+  Sparkles,
+  Sun,
+  Moon
 } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import { useTheme } from "next-themes";
@@ -72,9 +75,9 @@ export function AppSidebar() {
               render={<Link href="/" />}
             >
               <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm text-primary-foreground">
-                C
+                <Sparkles className="size-4" />
               </span>
-              <span>ChaiGPT</span>
+              <span>Nexus AI</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
@@ -234,10 +237,12 @@ function SidebarFooterMenu() {
           type="button"
           variant="ghost"
           size="sm"
-          className="w-full justify-start"
+          className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
         >
-          Toggle theme
+          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="group-data-[collapsible=icon]:hidden">Toggle Theme</span>
         </Button>
       </SidebarMenuItem>
       <SidebarMenuItem>
