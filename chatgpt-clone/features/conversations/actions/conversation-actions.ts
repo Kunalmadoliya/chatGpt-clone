@@ -35,41 +35,24 @@ async function findConversationWithUserId(
 
 // CREATE
 export async function createConversation(title: string) {
-  try {
-    const user = await getAuthenticateUser();
+  const user = await getAuthenticateUser();
 
-   if(!user) {
+  if (!user) {
     throw new Error("User not authenticated");
-   }
-
-    if (typeof title !== "string" || !title.trim()) {
-      title = "New Chat";
-    }
-
-    const conversation = await prisma.conversation.create({
-      data: {
-        userId: user.id,
-        title: title.trim(),
-      },
-    });
-
-    return {
-      success: true,
-      message: "Conversation created successfully.",
-      data: conversation,
-      id: conversation.id,
-    };
-  } catch (error) {
-    console.error("Create Conversation Error:", error);
-
-    return {
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Failed to create conversation.",
-    };
   }
+
+  if (typeof title !== "string" || !title.trim()) {
+    title = "New Chat";
+  }
+
+  const conversation = await prisma.conversation.create({
+    data: {
+      userId: user.id,
+      title: title.trim(),
+    },
+  });
+
+  return conversation;
 }
 
 // READ
