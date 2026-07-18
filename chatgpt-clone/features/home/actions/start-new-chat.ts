@@ -8,8 +8,6 @@ import { prisma } from "@/utils/db";
 export async function startNewChat() {
   const user = await getAuthenticateUser();
 
-  console.log("Authenticated user:", user);
-
   const conversation = await prisma.conversation.create({
     data: {
       userId: user.id,
@@ -18,9 +16,6 @@ export async function startNewChat() {
   });
 
 
-
-  return {
-    conversationId: conversation.id,
-  };
+    return conversation.id;
 }
 

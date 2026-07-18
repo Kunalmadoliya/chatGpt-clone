@@ -55,52 +55,36 @@ export async function createConversation(title: string) {
   return conversation;
 }
 
+
+//GET CONVERSATION
+export async function getConversation(conversationId: string) {
+  const user = await getAuthenticateUser();
+
+  const conversation = await findConversationWithUserId(conversationId, user.id);
+
+  return conversation;
+}
+
 // READ
-export async function listConversation(): Promise<
-  | {
-      success: true;
-      data: Conversation[];
-    }
-  | {
-      success: false;
-      message: string;
-    }
-> {
-  try {
-    const user = await getAuthenticateUser();
+export async function listConversation() {
+  const user = await getAuthenticateUser();
 
-    const conversations = await prisma.conversation.findMany({
-      where: {
-        userId: user.id,
-        isArchived: false,
-      },
-      orderBy: [{isPinned: "desc"}, {lastMessageAt: "desc"}],
-      select: {
-        id: true,
-        title: true,
-        isArchived: true,
-        isPinned: true,
-        lastMessageAt: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
-    return {
-      success: true,
-      data: conversations,
-    };
-  } catch (error) {
-    console.error("List Conversation Error:", error);
-
-    return {
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Failed to fetch conversations.",
-    };
-  }
+  return prisma.conversation.findMany({
+    where: {
+      userId: user.id,
+      isArchived: false,
+    },
+    orderBy: [{ isPinned: "desc" }, { lastMessageAt: "desc" }],
+    select: {
+      id: true,
+      title: true,
+      isArchived: true,
+      isPinned: true,
+      lastMessageAt: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 }
 
 // UPDATE
