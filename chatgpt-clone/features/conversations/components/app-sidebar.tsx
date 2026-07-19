@@ -54,8 +54,10 @@ type Conversation = NonNullable<
  */
 export function AppSidebar() {
   const pathname = usePathname();
+  console.log("pathname", pathname);
   const { data: conversations, isLoading } = useConversation();
 
+  console.log("conversations", conversations );
   
 // Get the active conversation id from the pathname (e.g. /c/123)
 // pathname.split("/")[2] is the third part of the pathname (the conversation id)
@@ -81,7 +83,7 @@ export function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="New chat" render={<Link href="/" />}>
+            <SidebarMenuButton tooltip="New chat" render={<Link href={`/c/`} />}>
               <PlusIcon />
               <span>New chat</span>
             </SidebarMenuButton>

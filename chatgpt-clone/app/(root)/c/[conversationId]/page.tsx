@@ -1,6 +1,8 @@
 import {getConversation} from "@/features/conversations/actions/conversation-actions";
-import {UserButton} from "@clerk/nextjs";
+
 import {notFound} from "next/dist/client/components/not-found";
+import {loadChatMessages} from "@/features/ai/actions/chat-store";
+import { ConversationView } from '@/features/conversations/components/conversation-view';
 
 type ConversationPageProps = {
   params: Promise<{conversationId: string}>;
@@ -9,10 +11,16 @@ type ConversationPageProps = {
 export default async function Page({params}: ConversationPageProps) {
   const {conversationId} = await params;
   try {
-    const conversation = await getConversation(conversationId);
+    await getConversation(conversationId);
   } catch (error) {
     notFound();
   }
-
-  return <></>;
+  const initialMessages = await loadChatMessages(conversationId);
+ return (
+    <ConversationView
+      key={conversationId}
+      conversationId={conversationId}
+      initialMessages={initialMessages}
+    />
+  )
 }

@@ -6,13 +6,16 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
-
+import { startNewChat } from "@/features/home/actions/start-new-chat";
+ 
 export function FloatingNavigationBar() {
   const { scrollY } = useScroll();
   const width = useTransform(scrollY, [0, 100], ["100%", "70%"]);
   const y = useTransform(scrollY, [0, 100], [0, 16]);
   const bgOpacity = useTransform(scrollY, [0, 100], ["rgba(255,255,255,0)", "rgba(10,10,10,0.6)"]);
   const { isSignedIn } = useAuth();
+
+
 
   return (
     <motion.header
@@ -45,7 +48,7 @@ export function FloatingNavigationBar() {
           <>
             <MagneticElement>
               <Link 
-                href="/c/onBoard" 
+                href={`/c/`}
                 className="hidden md:inline-flex rounded-full border border-border/50 bg-background/50 px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-secondary/50"
               >
                 Dashboard
