@@ -45,7 +45,7 @@ export function FloatingNavigationBar() {
           <>
             <MagneticElement>
               <Link 
-                href="/c" 
+                href="/c/onBoard" 
                 className="hidden md:inline-flex rounded-full border border-border/50 bg-background/50 px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-md transition-colors hover:bg-secondary/50"
               >
                 Dashboard
