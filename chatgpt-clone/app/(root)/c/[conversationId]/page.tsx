@@ -1,26 +1,31 @@
-import {getConversation} from "@/features/conversations/actions/conversation-actions";
-
-import {notFound} from "next/dist/client/components/not-found";
-import {loadChatMessages} from "@/features/ai/actions/chat-store";
-import { ConversationView } from '@/features/conversations/components/conversation-view';
+import { getConversation } from "@/features/conversations/actions/conversation-actions";
+import { notFound } from "next/dist/client/components/not-found";
+import { loadChatMessages } from "@/features/ai/actions/chat-store";
+import { ConversationView } from "@/features/conversations/components/conversation-view";
 
 type ConversationPageProps = {
-  params: Promise<{conversationId: string}>;
+  params: Promise<{ conversationId: string }>;
+  searchParams: Promise<{ initial?: string }>;
 };
 
-export default async function Page({params}: ConversationPageProps) {
-  const {conversationId} = await params;
+export default async function Page({ params, searchParams }: ConversationPageProps) {
+  const { conversationId } = await params;
+  const { initial } = await searchParams;
+
   try {
     await getConversation(conversationId);
   } catch (error) {
     notFound();
   }
+
   const initialMessages = await loadChatMessages(conversationId);
- return (
+
+  return (
     <ConversationView
       key={conversationId}
       conversationId={conversationId}
       initialMessages={initialMessages}
+      initialText={initial ? decodeURIComponent(initial) : undefined}
     />
-  )
+  );
 }
